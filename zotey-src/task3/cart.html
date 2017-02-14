@@ -22,18 +22,18 @@
 		.items_list{height:100px;border:1px solid #ddd;}
 		.each-item{border: 1px solid #ddd}
 		.row{margin-left: 0px;margin-right: 0px;}
+		.container{margin-top: 20px;}
 	</style>
 	<script>
 		var added_items=[];
 		$(document).ready(function(){
 			$(".add").on('click',function(){
-				//alert($(this).val());
 				var item_name=$(this).val();
 				if(added_items.length>=1)
 				{		
 					if(added_items.indexOf(item_name) >-1)
 					{
-						alert('already added');
+						alert('already added into cart');
 						return false;
 					}
 				}
@@ -48,6 +48,7 @@
 				    $(item_desc).css('height','70px');
 				    	var item_pic=document.createElement('div');
 				    	$(item_pic).addClass('col-md-5 col-sm-5 col-lg-5');
+				    	$(item_pic).html('<i class="fa fa-gift" aria-hidden="true"></i>');
 				    	$(item_desc).append(item_pic);
 				    	var item_rem=document.createElement('div');
 				    	$(item_rem).addClass('col-md-7 col-sm-7 col-lg-7');
@@ -60,15 +61,16 @@
 				    	$(item_desc).append(item_rem);
 				    $(row).append(item_desc);
 					var left=document.createElement('div');
-					$(left).addClass('col-md-6 col-lg-6 col-sm-6 ta_c');
+					$(left).addClass('col-md-5 col-lg-5 col-sm-5 ta_c');
 					$(left).text(item_name);
 					$(row).append(left);
 					var right=document.createElement('div');
-					$(right).addClass('col-md-6 col-lg-6 col-sm-6');
+					$(right).addClass('col-md-7 col-lg-7 col-sm-7');
 						var minus=document.createElement('btn');
 						$(minus).addClass('col-md-3 col-sm-3 col-lg-3');
+						$(plus).css('padding-right','3px');
 						$(minus).html('<i class="fa fa-minus-circle" aria-hidden="true"></i>');
-						$(minus).on('click',substract_quan);
+						$(minus).on('click',changeQuantity_minus);
 						$(right).append(minus);
 						
 						var add_d=document.createElement('input');
@@ -77,9 +79,10 @@
 						$(right).append(add_d);
 						  	
 						var plus=document.createElement('btn');
+						$(plus).css('padding-left','3px');
 						$(plus).addClass('col-md-3 col-sm-3 col-lg-3');
-						$(plus).html('<i class="fa fa-plus-circle" aria-hidden="true"></i>');
-						$(plus).on('click',increase_quan);
+						$(plus).html('<i class="fa fa-plus-circle" style="" aria-hidden="true"></i>');
+						$(plus).on('click',changeQuantity_plus);
 						$(right).append(plus);
 					$(row).append(right);
 				$(i).append(row);
@@ -87,11 +90,10 @@
 				$(this).removeClass('btn-success');
 				$(this).addClass('btn-warning');
 			});
-
 			$('#clear').on('click',clear);
 			$('#save').on('click',save);
 		});
-		function substract_quan()
+		function changeQuantity_minus()
 		{
 			var current_val=$(this).closest('div').find('input').val();
 			if(current_val>1)
@@ -100,7 +102,7 @@
 				$(this).closest('div').find('input').val(keep);
 			}
 		}
-		function increase_quan()
+		function changeQuantity_plus()
 		{
 			var current_val=$(this).closest('div').find('input').val();
 			if(current_val!=0)
@@ -123,7 +125,6 @@
 		}
 		function save()
 		{	
-			//added_items;
 			if(added_items.length===0)
 			{
 				return false;
@@ -133,18 +134,14 @@
 		function remove()
 		{
 			var  rm_item=$(this).data('remove');
-			//alert(rm_item);
 			var check;
-
 			$(this).parent().parent().parent().css('display','none');
 			if((check=added_items.indexOf(rm_item))>-1)
 			{
-						added_items = jQuery.grep(added_items, function(value) {
-				        return value != rm_item;
-				      });
+				added_items = jQuery.grep(added_items, function(value) {
+				    return value != rm_item;
+				});
 			}
-
-			alert(added_items.length);
 			if(added_items.length>1)
 			{
 				$('.length_of_cart').html(added_items.length);	
@@ -159,7 +156,6 @@
 			}
 			var small=rm_item.toLowerCase();
 			$('#'+small).removeClass('btn-warning');
-			//alert(JSON.stringify(added_items));
 		}
 	</script>
   </head>
@@ -168,42 +164,42 @@
 <div class="container">
   <div class="row">
 	
-    <div id="items" class="col-sm-8 only_checkbox">
+    <div id="items" class="col-sm-9 col-lg-9 col-md-9 only_checkbox">
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="shirt" value="Shirt"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
  Add </button>
 		</div>
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="t-shirt" value="T-shirt"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
  Add </button>
 		</div>
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="pant" value="Pant"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
  Add</button>
 		</div>
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="track-pant" value="Track-Pant"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
  Add </button>
 		</div>
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="shoe" value="Shoe"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
  Add </button>		
 		</div>
 		<div class="col-md-2 ta_c">
-			<div class="items_list"></div>
+			<div class="items_list"><i class="fa fa-gift" aria-hidden="true"></i></div>
 			<button class="btn btn-sm btn-default add" id="chappal" value="Chappal"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
   Add</button>	
 		</div>
     </div>
 
-    <div class="col-sm-4 pad_l_r0" id="cart_total">
+    <div class="col-sm-3 col-md-3 col-lg-3 pad_l_r0" id="cart_total">
 		<div id="">
-			<div class="ta_c cart_title"><btn class="btn btn-sm btn-primary length_of_cart" style="padding-right:8px;padding-left:8px;padding-bottom:4px;padding-top:4px;border-radius:100px;position: absolute; left:200px; font-size: 10px;top:-2px; ">0</btn><i class="fa fa-shopping-cart" style="color:black;" aria-hidden="true"></i> </div>
+			<div class="ta_c cart_title"><btn class="btn btn-sm btn-primary length_of_cart" style="padding-right:8px;padding-left:8px;padding-bottom:4px;padding-top:4px;border-radius:100px;position: absolute; left:145px; font-size: 10px;top:-2px; ">0</btn><i class="fa fa-shopping-cart" style="color:black;" aria-hidden="true"></i> </div>
 				 <div id="cart">
 				 	<div class="ta_c f_s_25" id="cart_empty">Cart is empty</div>
 				 </div>	
