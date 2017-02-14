@@ -1,0 +1,120 @@
+<!-- with localstorage -->
+<!DOCTYPE html>
+<head>
+    <title>Cart LocalStorage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .t_a_c{text-align: center;}
+        td { text-align :center}
+        .row{margin-left: 0px;margin-right: 0px;}
+         table { border-collapse: collapse;}
+        thead>tr>th{text-align: center; padding:5px 10px;background-color:#18aac4; color:#fff;}
+        tbody>tr:hover{background-color:#bfe9f1;cursor: pointer;}   
+    </style>
+    <script>
+        var cart = [];
+        $(function () {
+            if (localStorage.cart)
+            {
+                cart = JSON.parse(localStorage.cart);
+                showCart();
+            }
+        });
+        function addToCart() {
+            var name = $("#items option:selected").text();
+            var qty = $("#qty").val();
+
+            for (var i in cart) {
+                if(cart[i].Product == name)
+                {
+                    cart[i].Qty = qty;
+                    showCart();
+                    saveCart();
+                    return;
+                }
+            }
+            var item = { Product: name, Qty: qty }; 
+            cart.push(item);
+            saveCart();
+            showCart();
+        }
+        function deleteItem(index){
+            cart.splice(index,1); 
+            showCart();
+            saveCart();
+        }
+        function saveCart() {
+            if ( window.localStorage)
+            {
+                localStorage.cart = JSON.stringify(cart);
+            }
+        }
+        function showCart() {
+            if (cart.length == 0) {
+                $("#cart").css("display", "hidden");
+                return;
+            }
+            $("#cart").css("display", "visible");
+            $("#cartBody").empty();
+            for (var i in cart) {
+                var item = cart[i];
+                var row = "<tr id='item_row'><td>" + item.Product + "</td><td>" +
+                           + item.Qty + "</td><td>"
+                             + "<button class='btn btn-danger btn-sm'onclick='deleteItem(" + i + ")'>Remove</button></td></tr>";
+                $("#cartBody").append(row);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="row t_a_c">
+          <h2>Cart</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-lg-2">
+        </div>
+        <div class="col-md-4 col-sm-4 col-lg-4">
+        Select Product :
+        <select id="items" class="form-control">
+            <option value="60000">LED TV</option>
+            <option value="450">Pants</option>
+            <option value="600">Shirts</option>
+            <option value="300">Track Pants</option>
+            <option value="80">Foot Wear</option>  
+            <option value="10000">Mobiles</option>  
+        </select>
+        </div>
+        <div class="col-md-4 col-sm-4 col-lg-4">
+        Quantity
+        <input type="text" class="form-control" id="qty" size="3" />
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2">
+        </div>
+    </div>
+    <div class="row t_a_c">
+    <button id="btnAdd" class="btn btn-primary" onclick="addToCart()" >Save and Add </button>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-lg-2"></div> 
+        <div class="col-md-8 col-xs-8 col-lg-8">
+            <table id="cart" border="1" style="visibility:hidden; width:100%">
+                 <thead>
+                      <tr>
+                          <th>Product</th>
+                          <th>Qty</th>
+                          <th></th>
+                     </tr>
+                 </thead>
+                 <tbody id="cartBody">
+
+                 </tbody>
+            </table>
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2"></div> 
+    </div>    
+</body>
+</html>
+    

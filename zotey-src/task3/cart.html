@@ -129,6 +129,11 @@
 			{
 				return false;
 			}	
+            if (window.localStorage)
+            {
+                localStorage.cart = JSON.stringify(added_items);
+                alert(JSON.stringify(localStorage));	
+            }
 			alert('saved');
 		}
 		function remove()
